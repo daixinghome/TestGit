@@ -40,8 +40,8 @@ public class StartActivity extends BaseActivity {
 		
 		// 设置无标题窗口
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
-		int[] img = new int[] { R.drawable.no1, R.drawable.no2, R.drawable.no3,
-				R.drawable.no4, R.drawable.no5 };
+		int[] img = new int[] { R.drawable.no1, R.drawable.no2, R.drawable.no1,
+				R.drawable.no2, R.drawable.no1 };
 		LayoutInflater inflater = getLayoutInflater();
 		pageViews = new ArrayList<View>();
 		for (int i = 0; i < img.length; i++) {

@@ -40,17 +40,18 @@ public class ApplyForwarderActivity extends BaseActivity implements OnClickListe
 
 	private ImageView iv_idcard;
 	private ImageButton btn_cancel, btn_submit;
-	private EditText et_phone,et_ID;
+	private EditText et_phone,et_name,et_ID,et_address;
+	private Spinner spinner_gender;
+	private static final String[] genders={"男","女"};
+	private ArrayAdapter<String> adapter;
 	private Drawable drawable = null;
 	
 	private String[] items = new String[] { "选择本地图片", "拍照" };
-	
-	//请求码
+	/* 请求码 */
 	private static final int IMAGE_REQUEST_CODE = 0;
 	private static final int CAMERA_REQUEST_CODE = 1;
 	private static final int RESULT_REQUEST_CODE = 2;
-	
-	//头像名称
+	/* 头像名称 */
 	private static final String IMAGE_FILE_NAME = "faceImage.jpg";
 	private ImageView faceImage;
 	
@@ -58,16 +59,40 @@ public class ApplyForwarderActivity extends BaseActivity implements OnClickListe
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_applyforwarder);
 		
 		btn_cancel = (ImageButton)findViewById(R.id.applyforwarder_btn_cancel);
 		btn_submit = (ImageButton)findViewById(R.id.applyforwarder_btn_submit);
 		et_phone = (EditText)findViewById(R.id.applyforwarder_et_phone);
+		et_name = (EditText)findViewById(R.id.applyforwarder_et_name);
 		et_ID = (EditText)findViewById(R.id.applyforwarder_et_ID);
+		et_address = (EditText)findViewById(R.id.applyforwarder_et_address);
+		spinner_gender = (Spinner)findViewById(R.id.applyforwarder_spinner_gender);
 		iv_idcard = (ImageView)findViewById(R.id.applyforwarder_iv_idcard);
 		
+        //将可选内容与ArrayAdapter连接起来
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,genders);
+         
+        //设置下拉列表的风格
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+         
+        //将adapter 添加到spinner中
+        spinner_gender.setAdapter(adapter);
+         
+        //设置默认值
+        spinner_gender.setVisibility(View.VISIBLE);
+        
 		et_phone.setText(Constant.user.getUserPhoneNum());
+		et_name.setText(Constant.user.getUserName());
 		et_ID.setText(Constant.user.getUserIDNum());
+		et_address.setText(Constant.user.getUserAddress());
+		
+		if(Constant.user.getUserGender().equals("男")){
+			spinner_gender.setSelection(0);
+		}else{
+			spinner_gender.setSelection(1);
+		}
 		
 		btn_cancel.setOnClickListener(this);
 		btn_submit.setOnClickListener(this);
@@ -80,12 +105,19 @@ public class ApplyForwarderActivity extends BaseActivity implements OnClickListe
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.applyforwarder_btn_submit:
-			if(!TextUtils.isEmpty(et_ID.getText().toString())){
+			if(!TextUtils.isEmpty(et_name.getText().toString()) &&
+			   !TextUtils.isEmpty(et_ID.getText().toString()) &&
+			   !TextUtils.isEmpty(et_address.getText().toString())
+			){
+				Constant.user.setUserName(et_name.getText().toString());
+				Constant.user.setUserGender(spinner_gender.getSelectedItem().toString());
 				Constant.user.setUserIDNum(et_ID.getText().toString());
+				Constant.user.setUserAddress(et_address.getText().toString());
+				
 				BaseActivity.con.applyforwarder();
 			}else {
-				Toast.makeText(this, "身份证号码不能为空", 1).show();
-    	}
+				Toast.makeText(this, "以上所有信息均不能为空", 1).show();
+			}
 			break;
 		case R.id.applyforwarder_iv_idcard:
 			showPictureSelectDialog();
@@ -95,7 +127,9 @@ public class ApplyForwarderActivity extends BaseActivity implements OnClickListe
 		}
 	}
 
-	// 显示选择对话框
+	/**
+	 * 显示选择对话框
+	 */
 	private void showPictureSelectDialog() {
 
 		new AlertDialog.Builder(this)
@@ -107,7 +141,7 @@ public class ApplyForwarderActivity extends BaseActivity implements OnClickListe
 						switch (which) {
 						case 0:
 							Intent intentFromGallery = new Intent();
-							intentFromGallery.setType("image/*"); //设置文件类型
+							intentFromGallery.setType("image/*"); // 设置文件类型
 							intentFromGallery
 									.setAction(Intent.ACTION_GET_CONTENT);
 							startActivityForResult(intentFromGallery,
@@ -174,9 +208,13 @@ public class ApplyForwarderActivity extends BaseActivity implements OnClickListe
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	
-	//裁剪图片方法实现
+	/**
+	 * 裁剪图片方法实现
+	 * 
+	 * @param uri
+	 */
 	public void startPhotoZoom(Uri uri) {
+
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		// 设置裁剪
@@ -191,14 +229,29 @@ public class ApplyForwarderActivity extends BaseActivity implements OnClickListe
 		startActivityForResult(intent, 2);
 	}
 
-	//保存裁剪之后的图片数据
+	/**
+	 * 保存裁剪之后的图片数据
+	 * 
+	 * @param picdata
+	 */
 	private void getImageToView(Intent data) {
 		Bundle extras = data.getExtras();
 		if (extras != null) {
 			Bitmap photo = extras.getParcelable("data");
+			/*ByteBuffer dst = ByteBuffer.allocate(photo.getByteCount());
+			photo.copyPixelsToBuffer(dst);
+			byte []a = dst.array();
+			try {
+				String b = new String(a, "UTF-8");
+				System.out.println(b);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String s = photo.toString();*/
 			String s = bitmapToBase64(photo);
-			Constant.user.setIdcard_img_data(s);
-			Constant.user.setIdcard_img_name(Constant.user.getUserPhoneNum()+"_idcard.bmp");
+			Constant.user.setProfile_img_data(s);
+			Constant.user.setProfile_img_name(Constant.user.getUserPhoneNum()+"_profile.bmp");
 			BaseActivity.con.updateProfileImage();
 			drawable = new BitmapDrawable(photo);
 			
@@ -214,19 +267,18 @@ public class ApplyForwarderActivity extends BaseActivity implements OnClickListe
 			int result = message.arg1;
 			
 			if(result == Config.SUCCESS){
-				 Toast toast = Toast.makeText(ApplyForwarderActivity.this,"转寄员申请已发送", 1500);
+				 Toast toast = Toast.makeText(ApplyForwarderActivity.this,"申请转寄员成功", 1500);
 				 toast.show();
 				 Intent intent=new Intent(ApplyForwarderActivity.this,InformationActivity.class);
 			     startActivity(intent);	
 			}else{
-				 Toast.makeText(this,"转寄员申请发送失败", 1500).show();
+				 Toast.makeText(this,"申请转寄员失败", 1500).show();
 			}
 			break;
 		}
 		
 	}
 	
-	//bitmap转化为Base64格式
 	public static String bitmapToBase64(Bitmap bitmap) {
 
 		String result = null;

@@ -52,18 +52,20 @@ import com.stohelper.util.Tools;
 
 public class InformationActivity extends BaseActivity implements OnClickListener{
 
+	//private ImageButton btn_applyforwarder, btn_changeinformation, btn_back;
 	private TextView tv_phone,tv_name,tv_gender,tv_adress;
-	private ImageView iv_picture;
+	//private ImageView iv_picture;
+	private RoundImageView iv_picture;
 	private ListView listview1,listview2;
 	String changedPhone,changedName,changedSex,changedAddress;
 	private Drawable drawable = null;
 	
 	private String[] items = new String[] { "选择本地图片", "拍照" };
-	//请求码
+	/* 请求码 */
 	private static final int IMAGE_REQUEST_CODE = 0;
 	private static final int CAMERA_REQUEST_CODE = 1;
 	private static final int RESULT_REQUEST_CODE = 2;
-	//头像名称
+	/* 头像名称 */
 	private static final String IMAGE_FILE_NAME = "faceImage.jpg";
 	private ImageView faceImage;
 	
@@ -71,9 +73,11 @@ public class InformationActivity extends BaseActivity implements OnClickListener
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_information);
 		
 		listview1 = (ListView)findViewById(R.id.listview1);
+		//listview1.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1,getData()));
 
 		final SimpleAdapter adapter = new SimpleAdapter(this, getData(),R.layout.listview,
 				new String[] {"name"}, new int[] {R.id.title});
@@ -97,6 +101,7 @@ public class InformationActivity extends BaseActivity implements OnClickListener
 		});
 		
 		listview2 = (ListView)findViewById(R.id.listview2);
+		//listview2.setAdapter(new ArrayAdapter<String>(this, R.layout.listview,getData2()));
 		final SimpleAdapter adapter2 = new SimpleAdapter(this, getData2(),R.layout.listview,
 				new String[] {"name"}, new int[] {R.id.title});
 		adapter2.notifyDataSetChanged();
@@ -115,18 +120,53 @@ public class InformationActivity extends BaseActivity implements OnClickListener
 			}			
 		});
 		
-		iv_picture = (ImageView)findViewById(R.id.information_iv_picture);
+		//btn_applyforwarder = (ImageButton)findViewById(R.id.information_btn_applyforwarder);
+		//btn_changeinformation = (ImageButton)findViewById(R.id.information_btn_changeinformation);
+		//btn_back = (ImageButton)findViewById(R.id.information_btn_back);
+		//btn_applyforwarder.setOnClickListener(this);
+		//btn_changeinformation.setOnClickListener(this);
+		//btn_back.setOnClickListener(this);
+		
+		//tv_phone = (TextView)findViewById(R.id.information_tv_phone);
+		//tv_name = (TextView)findViewById(R.id.information_tv_name);
+		//tv_gender = (TextView)findViewById(R.id.information_tv_gender);
+		//tv_adress = (TextView)findViewById(R.id.information_tv_adress);
+		//iv_picture = (ImageView)findViewById(R.id.information_iv_picture);
+		iv_picture = (RoundImageView) findViewById(R.id.information_iv_picture);
+		iv_picture.setImageResource(R.drawable.default_picture);
 		iv_picture.setOnClickListener(this);
+		
+		//tv_phone.setText("手机号："+Constant.user.getUserPhoneNum());
+		//tv_name.setText("姓    名："+Constant.user.getUserName());
+		//tv_gender.setText("性    别："+Constant.user.getUserGender());
+		//tv_adress.setText("地    址："+Constant.user.getUserAddress());
 		
 		if(Constant.user.getProfile_img()!=null){
 			iv_picture.setImageBitmap(Constant.user.getProfile_img());
 		}
-	}
 	
+		
+	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
+		/*case R.id.information_btn_applyforwarder:
+			
+			Intent intent=new Intent(InformationActivity.this,ApplyForwarderActivity.class);
+	        startActivity(intent);	
+			break;
+        case R.id.information_btn_changeinformation:
+			
+			Intent intent2=new Intent(InformationActivity.this,ChangeInformationActivity.class);
+	        startActivity(intent2);	
+			break;
+        case R.id.information_btn_changepassword:
+			finish();
+			break;
+        case R.id.information_btn_back:
+			finish();
+			break;*/
 		case R.id.information_iv_picture:
 			showPictureSelectDialog();
 			break;
@@ -148,9 +188,15 @@ public class InformationActivity extends BaseActivity implements OnClickListener
 				 Toast toast = Toast.makeText(InformationActivity.this,"头像修改成功", 1500);
 				 toast.show();
 			}else{
-				 Toast.makeText(this,"头像修改失败", 1500).show();
+				 Toast.makeText(this,"申请转寄员失败", 1500).show();
 			}
 			break;
+		//Bitmap bitmap = convertStringToIcon(Constant.user.getProfile_img_data());
+
+		//Bitmap bm=n.getHttpBitmap("http://121.194.63.66/default.bmp");
+		
+		 
+		//iv_picture.s.setImageURI(new URI("http://121.194.63.66/default.bmp"));
 		}
 	}
 
@@ -170,7 +216,36 @@ public class InformationActivity extends BaseActivity implements OnClickListener
         return map;  
     } 
 	
-	
+	public static Bitmap convertStringToIcon(String st)  
+    {  
+        // OutputStream out;  
+        Bitmap bitmap = null;  
+        try  
+        {  
+            // out = new FileOutputStream("/sdcard/aa.jpg");  
+            
+        	byte[] bitmapArray;
+          
+            ByteArrayInputStream bais = new ByteArrayInputStream(st.getBytes());
+            
+        
+            
+            
+            //YuvImage yuvimage=new YuvImage(bitmapArray,ImageFormat.NV21,IMG_WIDTH,100,null);
+            //ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            //yuvimage.compressToJpeg(new Rect(0,0,20,20), 100, baos);
+            //bitmapArray=baos.toByteArray();
+            //bitmapArray = Base64.decode(st, Base64.DEFAULT);  
+            bitmap =  
+                    BitmapFactory.decodeStream(bais);
+            // bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);  
+            return bitmap;  
+        }  
+        catch (Exception e)  
+        {  
+            return null;  
+        }  
+    }  
 	
 	private List<Map<String, Object>> getData(){   
         final List<Map<String, Object>> listItem = new ArrayList<Map<String, Object>>(); // 创建一个list集合
@@ -417,10 +492,20 @@ public class InformationActivity extends BaseActivity implements OnClickListener
 		Bundle extras = data.getExtras();
 		if (extras != null) {
 			Bitmap photo = extras.getParcelable("data");
-			
+			/*ByteBuffer dst = ByteBuffer.allocate(photo.getByteCount());
+			photo.copyPixelsToBuffer(dst);
+			byte []a = dst.array();
+			try {
+				String b = new String(a, "UTF-8");
+				System.out.println(b);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String s = photo.toString();*/
 			String s = bitmapToBase64(photo);
 			Constant.user.setProfile_img_data(s);
-			Constant.user.setProfile_img_name(Constant.user.getUserPhoneNum()+"_profile.bmp");
+			Constant.user.setProfile_img_name("profile_"+Constant.user.getUserPhoneNum()+".jpg");
 			BaseActivity.con.updateProfileImage();
 			drawable = new BitmapDrawable(photo);
 			iv_picture.setImageDrawable(drawable);

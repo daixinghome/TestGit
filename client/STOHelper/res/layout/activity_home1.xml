@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,8 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/home_slideicon_homepage2"
-                android:text="主页面"
+                android:layout_toRightOf="@id/home_slideicon_mypackage"
+                android:text="我的包裹"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp" />
         </RelativeLayout>
@@ -93,7 +93,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/home_slideicon_setting" />
+                android:src="@drawable/home_slideicon_traderecord" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -101,7 +101,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/home_slideicon_setting"
-                android:text="设置"
+                android:text="交易记录"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp" />
         </RelativeLayout>
@@ -111,21 +111,21 @@
             android:layout_height="wrap_content" >
 
             <ImageView
-                android:id="@+id/five"
+                android:id="@+id/home_slideicon_logout"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/home_slideicon_exit" />
+                android:src="@drawable/home_slideicon_setting" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/five"
-                android:text="退出"
+                android:layout_toRightOf="@id/home_slideicon_logout"
+                android:text="注销"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp" />
         </RelativeLayout>

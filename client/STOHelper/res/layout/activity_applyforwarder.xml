@@ -43,6 +43,82 @@
 
     	</LinearLayout>
     
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_margin="1dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+            >
+            	<TextView
+               		android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:text="姓    名:"
+            	/>
+            
+            	<EditText 
+                	android:id="@+id/applyforwarder_et_name"
+	            	android:layout_width="match_parent"
+	            	android:layout_height="wrap_content"
+	            	
+	            	android:textSize="15sp"
+	        	/>
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+            >
+           	 	<TextView
+                	android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:text="性    别:"
+             	/>
+            
+            	<Spinner
+                	android:id="@+id/applyforwarder_spinner_gender"
+                	android:layout_width="match_parent"
+                	android:layout_height="wrap_content"
+            	/>
+            </LinearLayout>
+    	</LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center_vertical|center_horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地    址:"
+             />
+            
+	        <EditText 
+	            android:id="@+id/applyforwarder_et_address"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="15sp"
+	            />
+    	</LinearLayout>
+    	
         <LinearLayout 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
