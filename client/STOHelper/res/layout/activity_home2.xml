@@ -1,0 +1,85 @@
+<com.stohelper.view.SlidingMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:zhy="http://schemas.android.com/apk/res/com.stohelper.view"
+    android:id="@+id/id_menu"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background2"
+    android:scrollbars="none"
+    zhy:rightPadding="100dp" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/activity_home1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
+            android:orientation="vertical" >
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:onClick="toggleMenu"                
+                android:background="@drawable/home_btn_menu"
+                 />
+           
+            <ImageButton
+                android:id="@+id/home2_btn_picture"
+        	    android:layout_width="70dp"
+				android:layout_height="70dp"
+				android:layout_gravity="center"
+				android:layout_marginTop="40dp"
+				android:background="@drawable/default_picture"/>
+    
+    		<TextView
+    		    android:id="@+id/home2_tv_name"
+     		    android:layout_width="wrap_content"
+     		    android:layout_height="wrap_content"
+        		android:layout_gravity="center"
+        		android:layout_marginTop="20dp"
+        		android:text="姓名"/>
+    
+    		<TextView
+    		    android:id="@+id/home2_tv_phone"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:layout_gravity="center"
+        		android:layout_marginTop="20dp"
+        		android:text="手机号"/>
+    
+    		<LinearLayout 
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"  
+        		android:layout_marginTop="30dp"
+        		android:orientation="horizontal"
+    		>
+        
+        	<ImageButton
+        	    android:id="@+id/home2_btn_traderecord"
+            	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_marginLeft="20dp"
+		    	android:layout_gravity="center"
+		    	android:background="@drawable/home2_btn_traderecord_normal"/>
+        
+        	<ImageButton
+        	    android:id="@+id/home2_btn_mypackage"
+            	android:layout_width="wrap_content"
+		    	android:layout_height="wrap_content"
+		    	android:layout_gravity="center"
+		    	android:layout_marginLeft="40dp"
+		        android:background="@drawable/home2_btn_mypackage_normal"/>
+           
+    		</LinearLayout>
+            
+        </LinearLayout>
+    </LinearLayout>
+
+</com.stohelper.view.SlidingMenu>

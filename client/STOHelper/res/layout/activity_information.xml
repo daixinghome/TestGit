@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background2">
+    
+    <ImageView
+        android:id="@+id/information_iv_picture"
+        android:layout_width="70dp"
+		android:layout_height="70dp"
+		android:layout_marginTop="30dp"
+		android:layout_gravity="center"
+		android:background="@drawable/default_picture"/>
+ 
+    <ListView
+       android:id="@+id/listview1"
+       android:layout_width="wrap_content"
+       android:layout_height="180dp"
+       android:layout_marginTop="30dp"
+       android:background="@drawable/btn_silver_normal" />
+
+    <ListView
+        android:id="@+id/listview2"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/btn_silver_normal"/>
+    
+</LinearLayout>

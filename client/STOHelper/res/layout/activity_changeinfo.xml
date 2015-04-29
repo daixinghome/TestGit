@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background2">
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="20dp"
+        android:padding="20dp"
+        android:background="@drawable/c9">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/default_picture" />
+        
+       <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_margin="1dp"
+            >
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号:"
+            />
+            
+            <EditText 
+                android:id="@+id/changeinfo_et_phone"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="15sp"
+	            android:maxLength="20"
+	            android:editable="false"
+	        />
+
+
+    	</LinearLayout>
+    
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_margin="1dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+            >
+            	<TextView
+               		android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:text="姓    名:"
+            	/>
+            
+            	<EditText 
+                	android:id="@+id/changeinfo_et_name"
+	            	android:layout_width="match_parent"
+	            	android:layout_height="wrap_content"
+	            	
+	            	android:textSize="15sp"
+	        	/>
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+            >
+           	 	<TextView
+                	android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
+                	android:text="性    别:"
+             	/>
+            
+            	<Spinner
+                	android:id="@+id/changeinfo_spinner_gender"
+                	android:layout_width="match_parent"
+                	android:layout_height="wrap_content"
+            	/>
+            </LinearLayout>
+    	</LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center_vertical|center_horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地    址:"
+             />
+            
+	        <EditText 
+	            android:id="@+id/changeinfo_et_address"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="15sp"
+	            />
+    	</LinearLayout>
+    	
+      
+        
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_margin="1dp"
+            android:gravity="center_vertical|center_horizontal"
+            >
+	        	
+                <ImageButton
+                    android:id="@+id/changeinfo_btn_cancel"
+		            android:layout_width="90dp"
+		            android:layout_height="30dp"
+		            android:layout_margin="10dp"
+		            android:background="@drawable/changeinformation_btn_cancel"/>
+                
+	            <ImageButton
+	                android:id="@+id/changeinfo_btn_ok"
+		            android:layout_width="90dp"
+		            android:layout_height="30dp"
+		            android:layout_margin="10dp"
+		            android:src="@drawable/changeinformation_btn_ok"/>
+	        	
+    	</LinearLayout>
+    </LinearLayout>
+</LinearLayout>
