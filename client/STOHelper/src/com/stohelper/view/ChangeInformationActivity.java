@@ -1,6 +1,5 @@
 package com.stohelper.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -13,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.stohelper.util.BaseActivity;
-import com.stohelper.util.Config;
 import com.stohelper.util.Constant;
 
 public class ChangeInformationActivity extends BaseActivity implements OnClickListener{

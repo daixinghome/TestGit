@@ -2,11 +2,6 @@ package com.stohelper.view;
 
 import java.util.Map;
 
-import com.stohelper.network.Communication;
-import com.stohelper.util.BaseActivity;
-import com.stohelper.util.Config;
-import com.stohelper.util.Constant;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +17,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.stohelper.network.Communication;
+import com.stohelper.util.BaseActivity;
+import com.stohelper.util.Config;
+import com.stohelper.util.Constant;
+
+
 
 public class LoginActivity extends BaseActivity implements OnClickListener{
 	private ImageButton btn_cancel, btn_ok;
@@ -40,6 +42,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         con = Communication.getInstance();
+        
         sp = getSharedPreferences("users", Context.MODE_PRIVATE);
         ed = sp.edit();
         
@@ -171,9 +174,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener{
 				Constant.user.setUserType((Integer) map.get("type"));
 				int gender = (Integer) map.get("gender");
 				if(gender == 0){
-					Constant.user.setUserGender("女");
+					Constant.user.setUserGender("Ů");
 				}else{
-					Constant.user.setUserGender("男");
+					Constant.user.setUserGender("��");
 				}
 				Constant.user.setProfile_img((Bitmap)map.get("profile_img"));
 				

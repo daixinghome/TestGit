@@ -1,7 +1,5 @@
 package com.stohelper.view;
 import com.stohelper.util.BaseActivity;
-import com.stohelper.view.R;
-
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -40,8 +38,8 @@ public class StartActivity extends BaseActivity {
 		
 		// 设置无标题窗口
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
-		int[] img = new int[] { R.drawable.no1, R.drawable.no2, R.drawable.no1,
-				R.drawable.no2, R.drawable.no1 };
+		int[] img = new int[] { R.drawable.no1, R.drawable.no2, R.drawable.no3,
+				R.drawable.no4, R.drawable.no5 };
 		LayoutInflater inflater = getLayoutInflater();
 		pageViews = new ArrayList<View>();
 		for (int i = 0; i < img.length; i++) {
@@ -67,8 +65,8 @@ public class StartActivity extends BaseActivity {
 
 		for (int i = 0; i < pageViews.size(); i++) {
 			LinearLayout.LayoutParams margin = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
+					LayoutParams.WRAP_CONTENT,
+					LayoutParams.WRAP_CONTENT);
 			//设置每个小圆点距离左边的间距
 			//margin.setMargins(10, 0, 0, 0);
 			margin.setMargins(10, 0, 0, 150);

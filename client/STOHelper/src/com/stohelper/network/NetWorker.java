@@ -1,16 +1,11 @@
 package com.stohelper.network;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.Socket;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +20,7 @@ import com.stohelper.util.Constant;
 import com.stohelper.util.Tools;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Message;
-import android.util.Base64;
 import android.util.Log;
 
 
@@ -38,7 +31,6 @@ public class NetWorker extends Thread{
 	private Socket socket = null;
 	private InputStream inIS = null;
 	private PrintStream outPS = null;
-//	private PrintWriter outPW = null;
 	private byte[] lengthData = new byte[4];
 	
 	private Boolean onWork = true;
@@ -114,28 +106,33 @@ public class NetWorker extends Thread{
 		}
 		//登录
 		if (requestType == Config.REQUEST_LOGIN) {
-			handLoginAndRegister();
+			handLogin();
 		}
 		//注册
 		else if (requestType == Config.REQUEST_REGISTER) {
-			handLoginAndRegister();
+			handRegister();
 		}
 		//获得个人信息
 		else if (requestType == Config.REQUEST_GET_USER_INFO) {
 			handGetInformation();
 		}
+		//申请转寄员
 		else if (requestType == Config.REQUEST_FORWARDER_APPLY) {
 			handApplyForwarder();
 		}
+		//修改姓名
 		else if (requestType == Config.REQUEST_UPDATE_NAME) {
 			handUpdateName();
 		}
+		//修改性别
 		else if (requestType == Config.REQUEST_UPDATE_GENDER) {
 			handUpdateGender();
 		}
+		//修改地址
 		else if (requestType == Config.REQUEST_UPDATE_ADDRESS) {
 			handUpdateAddress();
 		}
+		//修改头像
 		else if (requestType == Config.REQUEST_UPDATE_PROFILE_IMG) {
 			handUpdateProfileImage();
 		}
@@ -143,11 +140,6 @@ public class NetWorker extends Thread{
 	}
 
 	
-
-	
-
-	
-
 	public boolean checkConnect() {
 		if(state == running)
 			return true;
@@ -159,6 +151,7 @@ public class NetWorker extends Thread{
 		this.onWork = onWork;
 	}
 	
+	//登录
 	public void login() {
 		JSONObject jo = new JSONObject();
 		try {
@@ -184,7 +177,8 @@ public class NetWorker extends Thread{
 		}
 	}
 
-	public void handLoginAndRegister() {
+	//传递从服务器端返回的登录请求
+	private void handLogin() {
 		Log.i(tag, "传递从服务器端返回的登录的请求");
 		try {
 			Message msg = new Message();
@@ -194,18 +188,29 @@ public class NetWorker extends Thread{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
-	public void getInformation() {
+	//注册
+	public void register() {
 		JSONObject jo = new JSONObject();
 		try {
-			jo.put("what", Config.REQUEST_GET_USER_INFO);
+			jo.put("what", Config.REQUEST_REGISTER);
 			jo.put("phoneNum", Constant.user.getUserPhoneNum());
+			jo.put("password", Constant.user.getUserPassword());
+			jo.put("name", Constant.user.getUserName());
+			if(Constant.user.getUserGender().equals("男")){
+				jo.put("gender", 1);
+			}else{
+				jo.put("gender", 0);
+			}
+			jo.put("idcard", Constant.user.getUserIDNum());
+			jo.put("address", Constant.user.getUserAddress());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.i(tag, "发送的请求为：" + jo.toString());
+		Log.i(tag, "发送注册的请求为：" + jo.toString());
 		
 		try {
 			outPS.write(Tools.getJASONLength(jo));
@@ -220,6 +225,46 @@ public class NetWorker extends Thread{
 		}
 	}
 	
+	//传递从服务器端返回的注册请求
+	private void handRegister() {
+		Log.i(tag, "传递从服务器端返回的注册的请求");
+		try {
+			Message msg = new Message();
+			msg.what = jsonObject.getInt("what");
+			msg.arg1 = jsonObject.getInt("status");
+			BaseActivity.sendMessage(msg);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	//获得个人信息
+	public void getInformation() {
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("what", Config.REQUEST_GET_USER_INFO);
+			jo.put("phoneNum", Constant.user.getUserPhoneNum());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Log.i(tag, "发送获得个人信息的请求为：" + jo.toString());
+		
+		try {
+			outPS.write(Tools.getJASONLength(jo));
+			outPS.write(jo.toString().getBytes("UTF-8"));
+			outPS.flush();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	//传递从服务器端返回的获得个人信息请求
 	private void handGetInformation() {
 		// TODO Auto-generated method stub
 		Log.i(tag, "传递从服务器端返回的获得个人信息的请求");
@@ -242,57 +287,22 @@ public class NetWorker extends Thread{
 		}
 	}
 	
-	public void register() {
-		JSONObject jo = new JSONObject();
-		try {
-			jo.put("what", Config.REQUEST_REGISTER);
-			jo.put("phoneNum", Constant.user.getUserPhoneNum());
-			jo.put("password", Constant.user.getUserPassword());
-			jo.put("name", Constant.user.getUserName());
-			if(Constant.user.getUserGender().equals("男")){
-				jo.put("gender", 1);
-			}else{
-				jo.put("gender", 0);
-			}
-			jo.put("idcard", Constant.user.getUserIDNum());
-			jo.put("address", Constant.user.getUserAddress());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Log.i(tag, "发送登录的请求为：" + jo.toString());
-		
-		try {
-			outPS.write(Tools.getJASONLength(jo));
-			outPS.write(jo.toString().getBytes("UTF-8"));
-			outPS.flush();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+	//申请转寄员
 	public void applyforwarder() {
 		JSONObject jo = new JSONObject();
 		try {
 			jo.put("what", Config.REQUEST_FORWARDER_APPLY);
 			jo.put("phoneNum", Constant.user.getUserPhoneNum());
-			jo.put("name", Constant.user.getUserName());
-			if(Constant.user.getUserGender().equals("男")){
-				jo.put("gender", 1);
-			}else{
-				jo.put("gender", 0);
-			}
 			jo.put("idcard", Constant.user.getUserIDNum());
-			//jo.put("address", Constant.user.getUserAddress());
+			Map<String, Object> image = new HashMap<String, Object>();
+			image.put("name", Constant.user.getIdcard_img_name());
+			image.put("data", Constant.user.getIdcard_img_data());
+			jo.put("idcard_img", image);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.i(tag, "发送的请求为：" + jo.toString());
+		Log.i(tag, "发送的申请转寄员请求为：" + jo.toString());
 		
 		try {
 			outPS.write(Tools.getJASONLength(jo));
@@ -307,8 +317,7 @@ public class NetWorker extends Thread{
 		}
 	}
 	
-	
-	
+	//传递从服务器端返回的申请转寄员请求
 	private void handApplyForwarder() {
 		Log.i(tag, "传递从服务器端返回的申请转寄员请求");
 		try {
@@ -321,27 +330,22 @@ public class NetWorker extends Thread{
 			e.printStackTrace();
 		}
 	}
-
 	
-
-	/*public void changeInformation() {
+	//修改头像
+	public void updateProfileImage() {
 		JSONObject jo = new JSONObject();
 		try {
-			jo.put("what", Config.REQUEST_UPDATE_USER_INFO);
+			jo.put("what", Config.REQUEST_UPDATE_PROFILE_IMG);
 			jo.put("phoneNum", Constant.user.getUserPhoneNum());
-			jo.put("name", Constant.user.getUserName());
-			if(Constant.user.getUserGender().equals("男")){
-				jo.put("gender", 1);
-			}else{
-				jo.put("gender", 0);
-			}
-			
-			jo.put("address", Constant.user.getUserAddress());
+			JSONObject image = new JSONObject();
+			image.put("name", Constant.user.getProfile_img_name());
+			image.put("data", Constant.user.getProfile_img_data());
+			jo.put("profile_img", image);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.i(tag, "发送的请求为：" + jo.toString());
+		Log.i(tag, "发送的修改头像请求为：" + jo.toString());
 		
 		try {
 			outPS.write(Tools.getJASONLength(jo));
@@ -356,9 +360,10 @@ public class NetWorker extends Thread{
 		}
 		
 	}
-	*/
-	private void handChangeInformation() {
-		Log.i(tag, "传递从服务器端返回的修改个人信息请求");
+
+	//传递从服务器端返回的修改头像请求
+	private void handUpdateProfileImage() {
+		Log.i(tag, "传递从服务器端返回的修改头像请求");
 		try {
 			Message msg = new Message();
 			msg.what = jsonObject.getInt("what");
@@ -371,52 +376,7 @@ public class NetWorker extends Thread{
 		
 	}
 	
-	public String getFromBASE64(String s){
-		if(s == null){
-			return null;
-		}
-		
-		try{
-			byte b[] = Base64.decode(s,Base64.DEFAULT);
-			return new String(b);
-		}catch(Exception e){
-			return null;
-		}
-	}
-	
-	
-	
-
-	public void updateProfileImage() {
-		JSONObject jo = new JSONObject();
-		try {
-			jo.put("what", Config.REQUEST_UPDATE_PROFILE_IMG);
-			jo.put("phoneNum", Constant.user.getUserPhoneNum());
-			JSONObject image = new JSONObject();
-//			Map<String, Object> image = new HashMap<String, Object>();
-			image.put("name", Constant.user.getProfile_img_name());
-			image.put("data", Constant.user.getProfile_img_data());
-			jo.put("profile_img", image);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Log.i(tag, "发送的请求为：" + jo.toString());
-		
-		try {
-			outPS.write(Tools.getJASONLength(jo));
-			outPS.write(jo.toString().getBytes("UTF-8"));
-			outPS.flush();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
+	//修改姓名
 	public void updateName(String changedName) {
 		JSONObject jo = new JSONObject();
 		try {
@@ -427,7 +387,7 @@ public class NetWorker extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.i(tag, "发送的请求为：" + jo.toString());
+		Log.i(tag, "发送的修改姓名请求为：" + jo.toString());
 		
 		try {
 			outPS.write(Tools.getJASONLength(jo));
@@ -443,8 +403,9 @@ public class NetWorker extends Thread{
 		
 	}
 	
+	//传递从服务器端返回的修改姓名请求
 	private void handUpdateName() {
-		Log.i(tag, "传递从服务器端返回的修改个人信息请求");
+		Log.i(tag, "传递从服务器端返回的修改姓名请求");
 		try {
 			Message msg = new Message();
 			msg.what = jsonObject.getInt("what");
@@ -457,6 +418,7 @@ public class NetWorker extends Thread{
 		
 	}
 
+	//修改地址
 	public void updateAddress(String changedAddress) {
 		JSONObject jo = new JSONObject();
 		try {
@@ -467,7 +429,7 @@ public class NetWorker extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.i(tag, "发送的请求为：" + jo.toString());
+		Log.i(tag, "发送的修改地址请求为：" + jo.toString());
 		
 		try {
 			outPS.write(Tools.getJASONLength(jo));
@@ -482,52 +444,9 @@ public class NetWorker extends Thread{
 		}
 	}
 
-	public void updateGender(String changedGender) {
-		JSONObject jo = new JSONObject();
-		try {
-			jo.put("what", Config.REQUEST_UPDATE_NAME);
-			jo.put("phoneNum", Constant.user.getUserPhoneNum());
-			if(Constant.user.getUserGender().equals("男")){
-				jo.put("gender", 1);
-			}else{
-				jo.put("gender", 0);
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Log.i(tag, "发送的请求为：" + jo.toString());
-		
-		try {
-			outPS.write(Tools.getJASONLength(jo));
-			outPS.write(jo.toString().getBytes("UTF-8"));
-			outPS.flush();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
+	//传递从服务器端返回的修改地址请求
 	private void handUpdateAddress() {
-		Log.i(tag, "传递从服务器端返回的修改个人信息请求");
-		try {
-			Message msg = new Message();
-			msg.what = jsonObject.getInt("what");
-			msg.arg1 = jsonObject.getInt("status");
-			BaseActivity.sendMessage(msg);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
-	private void handUpdateGender() {
-		Log.i(tag, "传递从服务器端返回的修改个人信息请求");
+		Log.i(tag, "传递从服务器端返回的修改地址请求");
 		try {
 			Message msg = new Message();
 			msg.what = jsonObject.getInt("what");
@@ -540,8 +459,40 @@ public class NetWorker extends Thread{
 		
 	}
 	
-	private void handUpdateProfileImage() {
-		Log.i(tag, "传递从服务器端返回的修改个人信息请求");
+	//修改性别
+	public void updateGender(String changedGender) {
+		JSONObject jo = new JSONObject();
+		try {
+			jo.put("what", Config.REQUEST_UPDATE_GENDER);
+			jo.put("phoneNum", Constant.user.getUserPhoneNum());
+			if(Constant.user.getUserGender().equals("男")){
+				jo.put("gender", 1);
+			}else{
+				jo.put("gender", 0);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Log.i(tag, "发送的修改性别请求为：" + jo.toString());
+		
+		try {
+			outPS.write(Tools.getJASONLength(jo));
+			outPS.write(jo.toString().getBytes("UTF-8"));
+			outPS.flush();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	//传递从服务器端返回的修改性别请求
+	private void handUpdateGender() {
+		Log.i(tag, "传递从服务器端返回的修改性别请求");
 		try {
 			Message msg = new Message();
 			msg.what = jsonObject.getInt("what");
@@ -553,4 +504,6 @@ public class NetWorker extends Thread{
 		}
 		
 	}
+	
+	
 }

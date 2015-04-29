@@ -4,15 +4,12 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Vector;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
-import android.text.InputFilter.LengthFilter;
 
 public class Tools {
 	public static byte[] getJASONLength(JSONObject jo){
@@ -68,9 +65,7 @@ public class Tools {
 		}
 	}
 	
-	/**
-     * 获取网落图片资源
-     */
+	//获取网络图片资源
     public static Bitmap getHttpBitmap(String url) {
         URL myFileURL;
         Bitmap bitmap = null;

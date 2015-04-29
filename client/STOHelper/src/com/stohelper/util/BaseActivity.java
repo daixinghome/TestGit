@@ -27,6 +27,7 @@ public abstract class BaseActivity extends Activity{
 	}
 	
 	private static Handler handler = new Handler(){
+		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			

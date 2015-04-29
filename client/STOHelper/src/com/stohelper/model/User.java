@@ -2,17 +2,22 @@ package com.stohelper.model;
 
 import android.graphics.Bitmap;
 
-public class User {
-	private String userPhoneNum = "";
-	private String userPassword = "";
-	private String userName = "";
-	private String userGender = "";
-	private String userIDNum = "";
-	private String userAddress = "";
-	private int userType = 1;
-	private String profile_img_name = "";
-	private String profile_img_data = "";
-	private Bitmap profile_img = null;
+//用户类
+public class User { 
+	
+	private String userPhoneNum = ""; //电话号码
+	private String userPassword = ""; //密码
+	private String userName = ""; //姓名
+	private String userGender = ""; //性别
+	private String userIDNum = ""; //身份证号码
+	private String userAddress = ""; //地址
+	private int userType = 1; //用户类型
+	private String profile_img_name = ""; //头像图片名
+	private String profile_img_data = ""; //头像图片数据
+	private Bitmap profile_img = null; //头像图片
+	private String idcard_img_name = ""; //身份证图片名
+	private String idcard_img_data = ""; //身份证图片数据
+	private Bitmap idcard_img = null; //身份证图片
 	
 	public User(){}
 	
@@ -109,5 +114,29 @@ public class User {
 	
 	public void setProfile_img(Bitmap profile_img) {
 		this.profile_img = profile_img;
+	}
+
+	public String getIdcard_img_name() {
+		return idcard_img_name;
+	}
+
+	public void setIdcard_img_name(String idcard_img_name) {
+		this.idcard_img_name = idcard_img_name;
+	}
+
+	public String getIdcard_img_data() {
+		return idcard_img_data;
+	}
+
+	public void setIdcard_img_data(String idcard_img_data) {
+		this.idcard_img_data = idcard_img_data;
+	}
+
+	public Bitmap getIdcard_img() {
+		return idcard_img;
+	}
+
+	public void setIdcard_img(Bitmap idcard_img) {
+		this.idcard_img = idcard_img;
 	}
 }

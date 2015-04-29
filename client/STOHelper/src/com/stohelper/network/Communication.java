@@ -48,22 +48,26 @@ public class Communication {
 	}
 
     
-	public void updateProfileImage() {
-		netWorker.updateProfileImage();
-	}
-
+	//修改姓名
 	public void updateName(String changedName) {
 		netWorker.updateName(changedName);
 		
 	}
 
+	//修改地址
 	public void updateAddress(String changedAddress) {
 		netWorker.updateAddress(changedAddress);
 		
 	}
 
+	//修改性别
 	public void updateGender(String changedGender) {
 		netWorker.updateGender(changedGender);
 		
+	}
+	
+	//修改头像
+	public void updateProfileImage() {
+		netWorker.updateProfileImage();
 	}
 }
